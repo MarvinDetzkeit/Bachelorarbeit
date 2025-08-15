@@ -1,0 +1,34 @@
+{
+    "0":{
+        "blankWrite":1,
+        "blankShift":"r",
+        "blankState":"1",
+        "oneWrite":1,
+        "oneShift":"l",
+        "oneState":"1"
+    },
+    "1":{
+        "blankWrite":1,
+        "blankShift":"l",
+        "blankState":"0",
+        "oneWrite":0,
+        "oneShift":"l",
+        "oneState":"2"
+    },
+    "2":{
+        "blankWrite":1,
+        "blankShift":"r",
+        "blankState":"HALT",
+        "oneWrite":1,
+        "oneShift":"l",
+        "oneState":"3"
+    },
+    "3":{
+        "blankWrite":1,
+        "blankShift":"r",
+        "blankState":"3",
+        "oneWrite":0,
+        "oneShift":"r",
+        "oneState":"0"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "0":{
+        "blankWrite":0,
+        "blankShift":"l",
+        "blankState":"1",
+        "oneWrite":1,
+        "oneShift":"l",
+        "oneState":"0"
+    },
+    "1":{
+        "blankWrite":0,
+        "blankShift":"r",
+        "blankState":"-1",
+        "oneWrite":1,
+        "oneShift":"l",
+        "oneState":"0"
+    }
+}

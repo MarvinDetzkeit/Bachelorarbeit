@@ -1,0 +1,3 @@
+code --uninstall-extension busyc-language-0.0.1.vsix 
+vsce package
+code --install-extension busyc-language-0.0.1.vsix 

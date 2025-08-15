@@ -1,0 +1,11 @@
+uint b = 10;
+
+CHECK:
+if (b == 0) halt;
+b--;
+if (b == 0) goto INFINITE_LOOP;
+b--;
+goto CHECK;
+
+INFINITE_LOOP:
+goto INFINITE_LOOP;

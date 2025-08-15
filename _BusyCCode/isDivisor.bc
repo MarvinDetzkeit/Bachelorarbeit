@@ -1,0 +1,34 @@
+uint n = 102;
+uint i = 3;
+uint iIsDivisor = 0;
+
+uint nBuf = 0;
+uint iBuf = 0;
+IF_I_IS_DIVISOR:
+  if (n == 0) goto EVAL_IF_I_DIVISOR;
+  if (i == 0) goto REWRITE_I;
+  n--; i--;
+  nBuf++; iBuf++;
+  goto IF_I_IS_DIVISOR;
+
+EVAL_IF_I_DIVISOR:
+  if (i == 0) iIsDivisor++;
+  RESTORE_N:
+  n++; nBuf--;
+  if (nBuf != 0) goto RESTORE_N;
+  RESTORE_I:
+  i++; iBuf--;
+  if (iBuf != 0) goto RESTORE_I;
+  goto RETURN_IF_I_IS_DIVISOR;
+
+
+REWRITE_I:
+  i++; iBuf--;
+  if (iBuf != 0) goto REWRITE_I;
+  goto IF_I_IS_DIVISOR;
+
+RETURN_IF_I_IS_DIVISOR:
+if (iIsDivisor != 0) halt;
+
+ENDLESSLOOP:
+goto ENDLESSLOOP;

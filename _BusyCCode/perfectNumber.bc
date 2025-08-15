@@ -1,0 +1,100 @@
+uint n = 1;
+uint sum = 0;
+
+MAIN:
+  n++; n++;
+  SET_SUM_ZERO: / Setze sum=0
+  sum--;
+  if (sum != 0) goto SET_SUM_ZERO;
+
+  uint i = 0;
+  SET_I_ZERO:
+  i--;
+  if (i != 0) goto SET_I_ZERO;
+  i++; / Setze i=1 für den start der Schleife
+  /for (int i = 1; i < n; i++)
+  FOR_1_TO_N_MINUS_1:
+    uint iIsDivisor = 0; / Wird auf 1 gesetzt, falls i ein Teiler von n ist
+    goto IF_I_IS_DIVISOR; / n % i == 0 ?
+    RETURN_IF_I_IS_DIVISOR:
+    if (iIsDivisor != 0) goto ADD_I_TO_SUM; / if (n % i == 0) sum += i
+    RETURN_ADD_I_TO_SUM:
+    iIsDivisor--;
+
+    i++; /Inkrementiere i für nächste Iteration
+    uint iLessN = 0; 
+    iLessN--;
+    goto IF_I_LESS_N; / i < n ?
+    RETURN_IF_I_LESS_N:
+    if (iLessN != 0) goto FOR_1_TO_N_MINUS_1; / Springe zu Schleifenbeginn falls i < n
+
+  goto IF_SUM_EQ_N; / n == sum ?
+
+
+
+uint bothZero = 0;
+uint nBuf = 0;
+uint iBuf = 0;
+IF_SUM_EQ_N: / Zähle n und sum runter, bis eine der Variablen den Wert 0 hat
+  if (sum == 0) goto EVAL_SUM_EQ_N;
+  sum--; n--; nBuf++;
+  if (n != 0) goto IF_SUM_EQ_N;
+
+  EVAL_SUM_EQ_N:
+    bothZero++; bothZero++;
+    if (sum == 0) bothZero--;
+    if (n == 0) bothZero--;
+    if (bothZero == 0) halt; / Wenn n und sum am Ende 0 sind, wurde eine perfekte Zahl gefunden
+    RESTORE_N_2:
+      n++; nBuf--;
+      if (nBuf != 0) goto RESTORE_N_2;
+    bothZero--; / Setze auf 0 für das nächste n
+    goto MAIN;
+
+
+
+/ Es gilt hier immer n>=i, da der initiale Wert von n größer als der initiale Wert von i is
+/ i wird in jeder Iteration inkrementiert bis i=n gilt, dann endet die "for-Schleife"
+IF_I_LESS_N: / Zähle n und i runter bis i=0
+  n--; i--; iBuf++;
+  if (i != 0) goto IF_I_LESS_N;
+  if (n != 0) iLessN++; / Setze auf 1, falls n>i
+  RESTORE_N_AND_I: / Stelle die ursprünglichen Werte von n und i wieder her
+    n++; i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_N_AND_I;
+  goto RETURN_IF_I_LESS_N;
+
+
+
+ADD_I_TO_SUM: / Addiere i zur Summe
+    sum++; iBuf++; i--;
+    if (i != 0) goto ADD_I_TO_SUM;
+
+  RESTORE_I_3:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I_3;
+  goto RETURN_ADD_I_TO_SUM;
+
+
+
+IF_I_IS_DIVISOR: /Ziehe i so oft von n ab, bis n=0
+    if (n == 0) goto EVAL_IF_I_DIVISOR; / Falls n=0, prüfe ob auch i=0
+    if (i == 0) goto RESTORE_I_2; / Falls i=0, stelle den Wert wieder her
+    n--; i--;
+    nBuf++; iBuf++;
+    goto IF_I_IS_DIVISOR;
+
+  EVAL_IF_I_DIVISOR:
+    if (i == 0) iIsDivisor++; / Falls n=0 und i=0 ist i ein Teiler von n
+    RESTORE_N:
+    n++; nBuf--;
+    if (nBuf != 0) goto RESTORE_N;
+    RESTORE_I:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I;
+    goto RETURN_IF_I_IS_DIVISOR;
+
+  RESTORE_I_2:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I_2;
+    goto IF_I_IS_DIVISOR;

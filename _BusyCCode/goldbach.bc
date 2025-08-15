@@ -1,0 +1,134 @@
+uint n = 2;
+uint isSumOf2Primes = 0;
+
+MAIN:
+  n++;n++;
+  SET_IS_SUM_OF_2_PRIMES_ZERO:
+    isSumOf2Primes--;
+    if (isSumOf2Primes != 0) goto SET_IS_SUM_OF_2_PRIMES_ZERO;
+
+  uint i = 0;
+  SET_I_ZERO:
+    i--;
+    if (i != 0) goto SET_I_ZERO;
+  i++; i++; / Setze i=2 für die Schleife
+  FOR_2_TO_N_MINUS_2:
+    uint prime = 0;
+    goto IF_SUM_OF_2_PRIMES; / if (isPrime(i) && isPrime(n-i))
+    RETURN_IF_SUM_OF_2_PRIMES:
+    if (prime != 0) isSumOf2Primes++; / Falls i und n-i prim
+    prime--;
+
+    i++;
+    uint iLessNm1 = 0;
+    iLessNm1--;
+    n--;
+    goto IF_I_LESS_N_MINUS_1; /Prüfe ob i<n-1
+    RETURN_IF_I_LESS_N_MINUS_1:
+    n++;
+    if (iLessNm1 != 0) goto FOR_2_TO_N_MINUS_2;
+  / Halte falls n nicht summe zweier primzahlen ist
+  if (isSumOf2Primes == 0) halt;
+  goto MAIN;
+
+
+
+uint nBuf = 0;
+uint iBuf = 0;
+uint p = 0;
+IF_SUM_OF_2_PRIMES:
+  i--; p++; iBuf++; / Schreibe Wert von i in p
+  if (i != 0) goto IF_SUM_OF_2_PRIMES;
+  goto IS_PRIME; / Prüfe ob i prim ist
+
+  RETURN_I_PRIME:
+  n--; p++; nBuf++; / Schreibe Wert von n in p
+  if (n != 0) goto RETURN_I_PRIME;
+
+  SUBTRACT_I:
+  iBuf--; p--; i++; / Subrahiere i von p und stelle i wieder her
+  if (iBuf != 0) goto SUBTRACT_I;
+  goto IS_PRIME; / Prüfe on n-i prim ist
+  RETURN_N_MINUS_I_PRIME:
+  n++; nBuf--; / Stelle n wieder her
+  if (nBuf != 0) goto RETURN_N_MINUS_I_PRIME;
+  prime--;
+  goto RETURN_IF_SUM_OF_2_PRIMES;
+
+
+
+uint numDivisors = 0;
+uint pBuf = 0;
+uint jBuf = 0;
+uint jIsDivisor = 0;
+IS_PRIME:
+  numDivisors--;
+  if (numDivisors != 0) goto IS_PRIME; / Setze numDivisors=0
+
+  uint j = 0;
+  SET_J_ZERO:
+  j--;
+  if (j != 0) goto SET_J_ZERO;
+  j++;
+  FOR_1_TO_P_MINUS_1:
+    goto IF_J_IS_DIVISOR;
+    RETURN_IF_J_IS_DIVISOR:
+    if (jIsDivisor != 0) numDivisors++;
+    jIsDivisor--;
+
+    j++;
+    uint jLessP = 0;
+    jLessP--;
+    goto IF_J_LESS_P;
+    RETURN_IF_J_LESS_P:
+    if (jLessP != 0) goto FOR_1_TO_P_MINUS_1;
+  
+  numDivisors--;
+  SET_P_ZERO:
+    p--;
+    if (p != 0) goto SET_P_ZERO;
+  if (numDivisors == 0) prime++;
+  / Gehe dahin zurück wo aufgerufen wurde
+  if (nBuf == 0) goto RETURN_I_PRIME;
+  goto RETURN_N_MINUS_I_PRIME;
+
+  IF_J_LESS_P:
+    p--; j--; jBuf++;
+    if (j != 0) goto IF_J_LESS_P;
+    if (p != 0) jLessP++;
+    RESTORE_P_AND_J:
+      p++; j++; jBuf--;
+      if (jBuf != 0) goto RESTORE_P_AND_J;
+    goto RETURN_IF_J_LESS_P;
+
+
+  IF_J_IS_DIVISOR:
+    if (p == 0) goto EVAL_IF_J_DIVISOR;
+    if (j == 0) goto RESTORE_J_2;
+    p--; j--; pBuf++; jBuf++;
+    goto IF_J_IS_DIVISOR;
+
+    EVAL_IF_J_DIVISOR:
+      if (j == 0) jIsDivisor++;
+      RESTORE_P:
+        p++; pBuf--;
+        if (pBuf != 0) goto RESTORE_P;
+      RESTORE_J:
+        j++; jBuf--;
+        if (jBuf != 0) goto RESTORE_J;
+      goto RETURN_IF_J_IS_DIVISOR;
+  
+    RESTORE_J_2:
+      j++; jBuf--;
+      if (jBuf != 0) goto RESTORE_J_2;
+      goto IF_J_IS_DIVISOR;
+
+
+IF_I_LESS_N_MINUS_1: / Zähle n und i runter bis i=0
+  n--; i--; iBuf++;
+  if (i != 0) goto IF_I_LESS_N_MINUS_1;
+  if (n != 0) iLessNm1++; / Setze auf 1, falls n-1>i
+  RESTORE_N_AND_I: / Stelle die ursprünglichen Werte von n und i wieder her
+    n++; i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_N_AND_I;
+  goto RETURN_IF_I_LESS_N_MINUS_1;

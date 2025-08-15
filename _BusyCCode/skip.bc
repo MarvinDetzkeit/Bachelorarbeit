@@ -1,0 +1,9 @@
+//Vorher 29 states, jetzt 21
+
+uint x = 1;
+x++;
+goto SKIP;
+goto SKIP;
+x--;
+SKIP:
+halt;

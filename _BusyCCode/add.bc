@@ -1,0 +1,41 @@
+// computes c = a + b without side effects
+//Vorher 260 states, jetzt 233
+
+uint a = 70;
+uint b = 90;
+uint c = 0;
+
+// buffers
+uint aTemp = 0;
+uint bTemp = 0;
+
+
+ADDA:
+if (a == 0) goto ADDB;
+c++;
+aTemp++;
+a--;
+goto ADDA;
+
+ADDB:
+if (b == 0) goto RESTOREA;
+c++;
+bTemp++;
+b--;
+goto ADDB;
+
+RESTOREA:
+if (aTemp == 0) goto RESTOREB;
+a++;
+aTemp--;
+goto RESTOREA;
+
+
+RESTOREB:
+if (bTemp == 0) goto END;
+b++;
+bTemp--;
+goto RESTOREB;
+
+
+END:

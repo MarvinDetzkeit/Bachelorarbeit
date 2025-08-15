@@ -1,0 +1,8 @@
+START:
+goto TESTING;
+halt;
+halt;
+halt;
+halt;
+TESTING:
+goto START;

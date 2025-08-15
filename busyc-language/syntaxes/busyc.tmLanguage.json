@@ -1,0 +1,49 @@
+{
+  "scopeName": "source.busyc",
+  "patterns": [
+    {
+      "name": "comment.line.busyc",
+      "match": "/.*$"
+    },
+    {
+      "name": "keyword.type.busyc",
+      "match": "\\buint\\b"
+    },
+    {
+      "name": "keyword.instruction.busyc",
+      "match": "\\b(goto|halt)\\b"
+    },
+    {
+      "name": "constant.numeric.busyc",
+      "match": "\\b\\d+\\b"
+    },
+    {
+      "name": "keyword.control.busyc",
+      "match": "\\bif\\b"
+    },
+    {
+      "name": "keyword.operator.comparison.busyc",
+      "match": "==|!="
+    },
+    {
+      "name": "variable.other.busyc",
+      "match": "\\b[a-z][a-zA-Z0-9_]*\\b"
+    },
+    {
+      "name": "entity.name.function.busyc",
+      "match": "\\b[A-Z][A-Z0-9_]*\\b"
+    },
+    {
+      "name": "keyword.operator.increment-decrement.busyc",
+      "match": "\\b\\w+(\\+\\+|\\-\\-)\\b"
+    },
+    {
+      "name": "punctuation.terminator.busyc",
+      "match": ";"
+    }
+  ],
+  "repository": {},
+  "names": [],
+  "injections": {},
+  "fileTypes": ["bc"]
+}

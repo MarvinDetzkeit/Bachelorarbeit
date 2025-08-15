@@ -1,0 +1,142 @@
+uint p = 0;
+uint j = 0;
+uint isSumOf2Primes = 0;
+uint nBuf = 0;
+uint numDivisors = 0;
+uint n = 2;
+uint i = 0;
+uint bool = 0;
+uint prime = 0;
+uint iBuf = 0;
+uint pBuf = 0;
+uint jBuf = 0;
+uint jIsDivisor = 0;
+
+MAIN:
+  n++;n++;
+  SET_IS_SUM_OF_2_PRIMES_ZERO:
+    isSumOf2Primes--;
+    if (isSumOf2Primes != 0) goto SET_IS_SUM_OF_2_PRIMES_ZERO;
+
+  SET_I_ZERO:
+    i--;
+    if (i != 0) goto SET_I_ZERO;
+  i++; i++;
+  FOR_2_TO_N_MINUS_2:
+    goto IF_SUM_OF_2_PRIMES;
+    RETURN_IF_SUM_OF_2_PRIMES:
+    if (prime != 0) isSumOf2Primes++;
+    prime--;
+
+    i++;
+    bool--;
+    n--;
+    goto IF_I_LESS_N_MINUS_1;
+    RETURN_IF_I_LESS_N_MINUS_1:
+    n++;
+    if (bool != 0) goto FOR_2_TO_N_MINUS_2;
+
+  if (isSumOf2Primes == 0) halt;
+  goto MAIN;
+
+
+
+IF_I_LESS_N_MINUS_1:
+  n--; i--; iBuf++;
+  if (i != 0) goto IF_I_LESS_N_MINUS_1;
+  if (n != 0) bool++;
+  RESTORE_N_AND_I:
+    n++; i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_N_AND_I;
+  goto RETURN_IF_I_LESS_N_MINUS_1;
+
+/ Kürze Sprungsequenz
+RETURN_IF_SUM_OF_2_PRIMES_0:
+goto RETURN_IF_SUM_OF_2_PRIMES;
+
+
+IF_SUM_OF_2_PRIMES:
+  i--; p++; iBuf++; 
+  if (i != 0) goto IF_SUM_OF_2_PRIMES;
+  goto IS_PRIME; 
+
+  RETURN_I_PRIME:
+  n--; p++; nBuf++; 
+  if (n != 0) goto RETURN_I_PRIME;
+
+  SUBTRACT_I:
+  iBuf--; p--; i++;
+  if (iBuf != 0) goto SUBTRACT_I;
+  goto IS_PRIME;
+  RETURN_N_MINUS_I_PRIME:
+  n++; nBuf--;
+  if (nBuf != 0) goto RETURN_N_MINUS_I_PRIME;
+  prime--;
+  goto RETURN_IF_SUM_OF_2_PRIMES_0;
+
+/ Kürze Sprungsequenz
+RETURN_I_PRIME_0:
+goto RETURN_I_PRIME;
+
+IS_PRIME:
+  numDivisors--;
+  if (numDivisors != 0) goto IS_PRIME;
+
+  SET_J_ZERO:
+  j--;
+  if (j != 0) goto SET_J_ZERO;
+  j++;
+  FOR_1_TO_P_MINUS_1:
+    goto IF_J_IS_DIVISOR;
+    RETURN_IF_J_IS_DIVISOR:
+    if (jIsDivisor != 0) numDivisors++;
+    jIsDivisor--;
+
+    j++;
+    bool--;
+    goto IF_J_LESS_P;
+    RETURN_IF_J_LESS_P:
+    if (bool != 0) goto FOR_1_TO_P_MINUS_1;
+  
+  numDivisors--;
+  SET_P_ZERO:
+    p--;
+    if (p != 0) goto SET_P_ZERO;
+  if (numDivisors == 0) prime++;
+  
+  if (nBuf == 0) goto RETURN_I_PRIME_0;
+  goto RETURN_N_MINUS_I_PRIME;
+
+RETURN_IF_J_IS_DIVISOR_0:
+goto RETURN_IF_J_IS_DIVISOR;
+
+  IF_J_LESS_P:
+    p--; j--; jBuf++;
+    if (j != 0) goto IF_J_LESS_P;
+    if (p != 0) bool++;
+    RESTORE_P_AND_J:
+      p++; j++; jBuf--;
+      if (jBuf != 0) goto RESTORE_P_AND_J;
+    goto RETURN_IF_J_LESS_P;
+
+
+  IF_J_IS_DIVISOR:
+    if (p == 0) goto EVAL_IF_J_DIVISOR;
+    if (j == 0) goto RESTORE_J_2;
+    p--; j--; pBuf++; jBuf++;
+    goto IF_J_IS_DIVISOR;
+
+    EVAL_IF_J_DIVISOR:
+      if (j == 0) jIsDivisor++;
+      RESTORE_P:
+        p++; pBuf--;
+        if (pBuf != 0) goto RESTORE_P;
+      RESTORE_J:
+        j++; jBuf--;
+        if (jBuf != 0) goto RESTORE_J;
+      goto RETURN_IF_J_IS_DIVISOR_0;
+  
+    RESTORE_J_2:
+      j++; jBuf--;
+      if (jBuf != 0) goto RESTORE_J_2;
+      goto IF_J_IS_DIVISOR;

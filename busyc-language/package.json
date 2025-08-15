@@ -1,0 +1,31 @@
+{
+  "name": "busyc-language",
+  "displayName": "BusyC",
+  "description": "Syntax highlighting for the BusyC language.",
+  "publisher": "Marvin Detzkeit",
+  "icon": "icons/busyc_icon.png",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "busyc",
+        "aliases": ["BusyC", "busyc"],
+        "extensions": [".bc"],
+        "configuration": "./language-configuration.json",
+        "icon": {"light": "icons/busyc_icon_tiny.png",
+                 "dark": "icons/busyc_icon_tiny.png"}
+      }
+    ],
+    "grammars": [
+      {
+        "language": "busyc",
+        "scopeName": "source.busyc",
+        "path": "./syntaxes/busyc.tmLanguage.json"
+      }
+    ]
+  }
+}

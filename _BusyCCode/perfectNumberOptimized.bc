@@ -1,0 +1,120 @@
+uint n = 1;
+uint i = 0;
+uint sum = 0;
+uint bool = 0; / Ersetzt 3 Variablen
+uint nBuf = 0;
+uint iBuf = 0;
+
+
+MAIN:
+  n++; n++;
+  SET_SUM_ZERO:
+  sum--;
+  if (sum != 0) goto SET_SUM_ZERO;
+
+  SET_I_ZERO:
+  i--;
+  if (i != 0) goto SET_I_ZERO;
+  i++;
+  FOR_1_TO_N_MINUS_1:
+    bool--; / Dekrementiere hier, da am Ende einer Iteration inkrementiert wird
+    goto IF_I_IS_DIVISOR;
+    RETURN_IF_I_IS_DIVISOR:
+    if (bool != 0) goto ADD_I_TO_SUM_0;
+    RETURN_ADD_I_TO_SUM:
+    bool--;
+
+    i++;
+    goto IF_I_LESS_N_0;
+    RETURN_IF_I_LESS_N:
+    if (bool != 0) goto FOR_1_TO_N_MINUS_1;
+
+  goto IF_SUM_EQ_N_0;
+
+
+
+IF_I_IS_DIVISOR:
+    if (n == 0) goto EVAL_IF_I_DIVISOR;
+    if (i == 0) goto RESTORE_I_2;
+    n--; i--;
+    nBuf++; iBuf++;
+    goto IF_I_IS_DIVISOR;
+
+MAIN_2:
+goto MAIN;
+
+  EVAL_IF_I_DIVISOR:
+    if (i == 0) bool++;
+    RESTORE_N:
+    n++; nBuf--;
+    if (nBuf != 0) goto RESTORE_N;
+    RESTORE_I:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I;
+    goto RETURN_IF_I_IS_DIVISOR;
+
+/ Zum Kürzen der Sprungsequenz
+ADD_I_TO_SUM_0:
+goto ADD_I_TO_SUM;
+
+RETURN_ADD_I_TO_SUM_0:
+goto RETURN_ADD_I_TO_SUM;
+
+  RESTORE_I_2:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I_2;
+    goto IF_I_IS_DIVISOR;
+
+
+
+/ Zum Kürzen der Sprungsequenzen
+IF_I_LESS_N_0:
+goto IF_I_LESS_N;
+
+MAIN_1:
+goto MAIN_2;
+
+RETURN_IF_I_LESS_N_0:
+goto RETURN_IF_I_LESS_N;
+
+IF_SUM_EQ_N_0:
+goto IF_SUM_EQ_N;
+
+
+ADD_I_TO_SUM:
+    sum++; iBuf++; i--;
+    if (i != 0) goto ADD_I_TO_SUM;
+
+  RESTORE_I_3:
+    i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_I_3;
+  goto RETURN_ADD_I_TO_SUM_0;
+
+MAIN_0:
+goto MAIN_1;
+
+IF_I_LESS_N:
+  n--; i--; iBuf++;
+  if (i != 0) goto IF_I_LESS_N;
+  if (n != 0) bool++;
+  RESTORE_N_AND_I:
+    n++; i++; iBuf--;
+    if (iBuf != 0) goto RESTORE_N_AND_I;
+  goto RETURN_IF_I_LESS_N_0;
+
+
+
+IF_SUM_EQ_N:
+  if (sum == 0) goto EVAL_SUM_EQ_N;
+  sum--; n--; nBuf++;
+  if (n != 0) goto IF_SUM_EQ_N;
+
+  EVAL_SUM_EQ_N:
+    bool++; bool++;
+    if (sum == 0) bool--;
+    if (n == 0) bool--;
+    if (bool == 0) halt;
+    RESTORE_N_2:
+      n++; nBuf--;
+      if (nBuf != 0) goto RESTORE_N_2;
+    goto MAIN_0;

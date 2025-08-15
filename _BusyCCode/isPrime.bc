@@ -1,0 +1,61 @@
+uint maybePrime = 2;
+uint i = 0;
+uint bool = 0;
+uint numDivisors = 0;
+FOR:
+  bool--;
+  i++;
+  goto I_DIVISOR_P;
+  RETURN_2:
+  goto I_SMALLER_P;
+  RETURN_1:
+  if (bool != 0) goto FOR;
+
+// if numDivisors != 2 halt (every non-prime number > 1 has more than 2 divisors)
+numDivisors--;
+if (numDivisors == 0) goto ENDLESSLOOP;
+numDivisors--;
+if (numDivisors == 0) halt;
+ENDLESSLOOP:
+goto ENDLESSLOOP;
+
+////////////////
+
+uint iBuf = 0;
+uint pBuf = 0;
+
+WRITEBACK_I:
+i++; iBuf--;
+if (iBuf != 0) goto WRITEBACK_I;
+
+I_DIVISOR_P:
+if (maybePrime == 0) goto EVAL2;
+if (i == 0) goto WRITEBACK_I;
+maybePrime--; i--; iBuf++; pBuf++;
+goto I_DIVISOR_P;
+  EVAL2:
+    if (i == 0) numDivisors++;
+    WRITEBACK_P:
+    maybePrime++; pBuf--;
+    if (pBuf != 0) goto WRITEBACK_P;
+    WRITEBACK_I2:
+    i++; iBuf--;
+    if (iBuf != 0) goto WRITEBACK_I2;
+    goto RETURN_2;
+
+
+uint buffer = 0;
+
+I_SMALLER_P:
+  if (maybePrime == 0) goto EVAL;
+  if (i == 0) goto EVAL;
+  maybePrime--; i--; buffer++;
+  goto I_SMALLER_P;
+  EVAL:
+    if (maybePrime != 0) bool++;
+    WRITEBACK:
+    maybePrime++; i++; buffer--;
+    if (buffer != 0) goto WRITEBACK;
+    goto RETURN_1;
+
+  

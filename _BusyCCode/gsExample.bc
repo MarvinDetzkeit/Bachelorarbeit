@@ -1,0 +1,5 @@
+uint a = 1;
+
+LOOP:
+  a++;
+goto LOOP;
